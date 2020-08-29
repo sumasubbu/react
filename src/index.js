@@ -3,6 +3,7 @@ import ReactDOM from "react-dom"
 // import './index.css';
 // import App from './App';
 import * as serviceWorker from './serviceWorker';
+// import App2 from "./components/App2"
 import App1 from "./components/App1"
 
 

@@ -1,14 +1,16 @@
-import React from "react";
-import Header from "./Header";
-import Footer from "./Footer";
-import MainContent from "./MainContent";
+import React from "react"
+import Header from "./Header"
+import MainContent from "./MainContent"
+import Footer from "./Footer"
+
 function App1() {
-  return (
-    <div>
-      <Header />
-      <MainContent />
-      <Footer />
-    </div> 
-  );
+    return(
+        <div>
+            <Header />
+            <MainContent />
+            <Footer />
+        </div>
+    )
 }
-export default App1;
+
+export default App1

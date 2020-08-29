@@ -1,17 +1,18 @@
 import React from "react";
+import "./css/style.css"
 
 function Header() {
   return (
     <div>
-      <nav>
+      <header className= "navbar">
         <h1>hello this is suma</h1>
 
-        <ol>
+        <ul>
           <li>1</li>
           <li>2</li>
           <li>3</li>
-        </ol>
-      </nav>
+        </ul>
+      </header>
     </div>
   );
 }
