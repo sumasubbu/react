@@ -1,8 +1,10 @@
 import React from "react";
 import "./css/style.css"
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome"
 
 function TodoItem(props) {
 
+  // Inline style definition for completed todos
   const completedTodoStyle = {
     color: "#808080",
     fontStyle: "italic",
@@ -11,15 +13,24 @@ function TodoItem(props) {
 
   return (
     <div className = "todoItem">
-      {/* */}
-     
-     <label style={props.item.completed? completedTodoStyle : null}>
+      <div >
+      
        <input type="checkbox" checked={props.item.completed} 
-      onChange={(event)=> props.handleChange(props.item.id)} >
+      onChange={()=> props.handleChange(props.item.id)} >
         </input>
-        {props.item.text}
-       </label>
-     
+       <input style={props.item.completed? completedTodoStyle : null} 
+       type="text" value={props.item.text} 
+       onChange={(event)=>props.handleEdit(event.target.text,props.item.id)}> 
+       </input>
+       
+       
+       <span>
+          <FontAwesomeIcon className="faicon" icon="times" 
+          onClick={() => props.handleDelete(props.item.id)} />
+        </span>
+        
+        </div>
+        
     </div>
   )
 }
