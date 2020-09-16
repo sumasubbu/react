@@ -103,15 +103,19 @@ class Todo extends Component {
     ));
     return (
       <div>
-        <form className="todoList" onSubmit={this.handleSubmit}>
-          <button type="submit">Add</button>
-          <input
+        
+        <form  onSubmit={this.handleSubmit}>
+        <div id="add-todo">
+          
+          <input id="todo-input"
             type="text"
             placeholder="Click here to add a todo"
             name="text"
             value={this.state.newTodo.text}
             onChange={this.handleInput}
           ></input>
+          <button id="add-button" type="submit">Add</button>
+          </div>
           <div className="todoList">{tododata}</div>
         </form>
       </div>

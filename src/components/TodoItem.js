@@ -13,23 +13,23 @@ function TodoItem(props) {
 
   return (
     <div className = "todoItem">
-      <div >
       
-       <input type="checkbox" checked={props.item.completed} 
+      
+      <input id="checkbox" type="checkbox" checked={props.item.completed} 
       onChange={()=> props.handleChange(props.item.id)} >
-        </input>
-       <input style={props.item.completed? completedTodoStyle : null} 
+      </input>
+      <textarea className="todo-text" style={props.item.completed? completedTodoStyle : null} 
        type="text" value={props.item.text} 
-       onChange={(event)=>props.handleEdit(event.target.text,props.item.id)}> 
-       </input>
+       onChange={(event)=>props.handleEdit(event.target.text,props.item.id)}/> 
        
        
-       <span>
+       
+      <span>
           <FontAwesomeIcon className="faicon" icon="times" 
           onClick={() => props.handleDelete(props.item.id)} />
-        </span>
+      </span>
         
-        </div>
+      
         
     </div>
   )
