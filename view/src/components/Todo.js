@@ -1,8 +1,10 @@
 import React, { Component } from "react";
 import TodoItem from "./TodoItem";
-import todolist from "../todolist";
+// import todolist from "../todolist";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
+import axios from 'axios'
+
 
 library.add(faTimes);
 
@@ -12,13 +14,16 @@ class Todo extends Component {
     //loading the todo list data into the state so that the data can be modified,
     //making the state the source of truth
     this.state = {
-      todos: todolist,
+      todos: '',
       newTodo: {
         id: null,
         text: "",
         completed: false,
       },
     };
+
+    
+    
     this.handleChange = this.handleChange.bind(this);
     this.handleInput = this.handleInput.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -26,6 +31,21 @@ class Todo extends Component {
     this.handleEdit = this.handleEdit.bind(this);
   }
   // TODO: need to remove add button and make new todos using enter key
+
+
+  componentWillMount = ()=> {
+    axios
+			.get('/todos')
+			.then((response) => {
+				this.setState({
+					todos: response.data,
+				
+				});
+			})
+			.catch((err) => {
+				console.log(err);
+			});
+  }
 
   handleChange(id) {
     //const {id} = event.target.id
