@@ -35,5 +35,8 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "https://us-central1-mytodoapp-e6af4.cloudfunctions.net/api"
+  "proxy": "https://us-central1-mytodoapp-e6af4.cloudfunctions.net/api",
+  "devDependencies": {
+    "css-declaration-sorter": "^5.1.2"
+  }
 }
