@@ -9,7 +9,7 @@ exports.getAllTodos = (request, response) => {
       let todos = [];
       data.forEach((doc) => {
         todos.push({
-          todoId: doc.id,
+          id: doc.id,
           text: doc.data().text,
           completed: doc.data().completed,
       

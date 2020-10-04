@@ -3,8 +3,7 @@ import TodoItem from "./TodoItem";
 // import todolist from "../todolist";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
-import axios from 'axios'
-
+import axios from "axios";
 
 library.add(faTimes);
 
@@ -14,7 +13,7 @@ class Todo extends Component {
     //loading the todo list data into the state so that the data can be modified,
     //making the state the source of truth
     this.state = {
-      todos: '',
+      todos: [],
       newTodo: {
         id: null,
         text: "",
@@ -22,8 +21,6 @@ class Todo extends Component {
       },
     };
 
-    
-    
     this.handleChange = this.handleChange.bind(this);
     this.handleInput = this.handleInput.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -32,37 +29,43 @@ class Todo extends Component {
   }
   // TODO: need to remove add button and make new todos using enter key
 
-
-  componentWillMount = ()=> {
+  componentDidMount = () => {
     axios
-			.get('/todos')
-			.then((response) => {
-				this.setState({
-					todos: response.data,
-				
-				});
-			})
-			.catch((err) => {
-				console.log(err);
-			});
-  }
+      .get("/todos")
+      .then((response) => {
+        console.log(response);
+        this.setState({
+          todos: response.data,
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    console.log(this.state.todos); // why is the todos empty array here? why is it not empty in render()
+  };
 
   handleChange(id) {
-    //const {id} = event.target.id
+    let data = {};
     this.setState((prevState) => {
       const updatedTodos = prevState.todos.map((item) => {
         if (item.id === id) {
+          data = {
+            text: item.text,
+            completed: !item.completed,
+          };
+
           return {
             /*returning a new object with updated fields
-            using spread notation to gather all the properties of the current 
-            todo data */
+          using spread notation to gather all the properties of the current 
+          todo data */
             ...item,
-            /* manually override the "completed" property to inverse of the value */
+            /* manually change the "completed" property to inverse of the value */
             completed: !item.completed,
           };
         }
         return item;
       });
+      axios.put(`/todos/${id}`, data);
       return { todos: updatedTodos };
     });
   }
@@ -90,16 +93,30 @@ class Todo extends Component {
   }
 
   handleDelete(id) {
-    const updatedTodos = this.state.todos.filter((item) => item.id !== id);
-    this.setState({
-      todos: updatedTodos,
-    });
+    axios
+      .delete(`todos/${id}`)
+      //TODO: do not reload to update the values
+      .then(() => {
+        const updatedTodos = this.state.todos.filter((item) => item.id !== id);
+        this.setState({
+          todos: updatedTodos,
+        });
+        //window.location.reload()})
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
 
   handleEdit(text, id) {
+    let data ={}
     this.setState((prevState) => {
       const updatedTodos = prevState.todos.map((item) => {
         if (item.id === id) {
+          data={
+            text:item.text,
+            completed:item.completed
+          }
           return {
             ...item,
             text: text,
@@ -107,11 +124,13 @@ class Todo extends Component {
         }
         return item;
       });
+      axios.put('/todos/id',data)
       return { todos: updatedTodos };
     });
   }
 
   render() {
+    console.log(this.state.todos);
     const tododata = this.state.todos.map((item) => (
       <TodoItem
         key={item.id}
@@ -123,18 +142,19 @@ class Todo extends Component {
     ));
     return (
       <div>
-        
-        <form  onSubmit={this.handleSubmit}>
-        <div id="add-todo">
-          
-          <input id="todo-input"
-            type="text"
-            placeholder="Click here to add a todo"
-            name="text"
-            value={this.state.newTodo.text}
-            onChange={this.handleInput}
-          ></input>
-          <button id="add-button" type="submit">Add</button>
+        <form onSubmit={this.handleSubmit}>
+          <div id="add-todo">
+            <input
+              id="todo-input"
+              type="text"
+              placeholder="Click here to add a todo"
+              name="text"
+              value={this.state.newTodo.text}
+              onChange={this.handleInput}
+            ></input>
+            <button id="add-button" type="submit">
+              Add
+            </button>
           </div>
           <div className="todoList">{tododata}</div>
         </form>
