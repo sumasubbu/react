@@ -10,7 +10,7 @@ library.add(faTimes);
 class Todo extends Component {
   constructor() {
     super();
-    //loading the todo list data into the state so that the data can be modified,
+    //  loading the todo list data into the state so that the data can be modified,
     //making the state the source of truth
     this.state = {
       todos: [],
