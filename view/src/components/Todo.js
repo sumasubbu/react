@@ -14,6 +14,7 @@ class Todo extends Component {
     //making the state the source of truth
     this.state = {
       todos: [],
+      text: "",
       newTodo: {
         id: null,
         text: "",
@@ -109,14 +110,14 @@ class Todo extends Component {
   }
 
   handleEdit(text, id) {
-    let data ={}
+    let data = {};
     this.setState((prevState) => {
       const updatedTodos = prevState.todos.map((item) => {
         if (item.id === id) {
-          data={
-            text:item.text,
-            completed:item.completed
-          }
+          data = {
+            text: text,
+            completed: item.completed,
+          };
           return {
             ...item,
             text: text,
@@ -124,7 +125,8 @@ class Todo extends Component {
         }
         return item;
       });
-      axios.put('/todos/id',data)
+
+      axios.put(`/todos/${id}`, data);
       return { todos: updatedTodos };
     });
   }

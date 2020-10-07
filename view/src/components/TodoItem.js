@@ -20,7 +20,7 @@ function TodoItem(props) {
       </input>
       <textarea className="todo-text" style={props.item.completed? completedTodoStyle : null} 
        type="text" value={props.item.text} 
-       onChange={(event)=>props.handleEdit(event.target.text,props.item.id)}/> 
+       onChange={(event)=>props.handleEdit(event.target.value,props.item.id)}/> 
        
        
        
