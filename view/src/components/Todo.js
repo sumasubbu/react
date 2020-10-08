@@ -5,6 +5,7 @@ import { library } from "@fortawesome/fontawesome-svg-core";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 
+
 library.add(faTimes);
 
 class Todo extends Component {
@@ -73,12 +74,23 @@ class Todo extends Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    const EnteredTodo = this.state.newTodo;
-    if (EnteredTodo.text !== "") {
-      const updatedTodos = [...this.state.todos, EnteredTodo];
-      this.setState({
-        todos: updatedTodos,
-      });
+    const enteredTodo = this.state.newTodo;
+    if (enteredTodo.text !== "") {
+      axios
+        .post("/todos", enteredTodo)
+        .then((response) => {
+          console.log((response.data.id));
+          const data = {
+            id:response.data.id,
+            text:this.state.newTodo.text,
+            completed: this.state.newTodo.completed
+          }
+          const updatedTodos = [...this.state.todos, data];
+          this.setState({
+            todos: updatedTodos,
+          });
+        })
+        .catch((error) => console.log(error));
     }
   }
 
@@ -86,7 +98,7 @@ class Todo extends Component {
     const { name, value } = event.target;
     this.setState({
       newTodo: {
-        id: Math.random(),
+        id: this.state.todos.length + 1,
         [name]: value,
         completed: false,
       },
